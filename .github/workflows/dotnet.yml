@@ -1,0 +1,13 @@
+name: Build and check GradeLedger
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet build GradeLedger.Desktop/GradeLedger.Desktop.csproj --configuration Release
+      - run: dotnet build GradeLedger.Console/GradeLedger.Console.csproj --configuration Release
+      - run: dotnet run --project GradeLedger.Checks/GradeLedger.Checks.csproj --configuration Release
